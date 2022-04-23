@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import numpy as np
 import csv
 
+# This script is used to read html documents(taken from retractionWatchDatabase and reading doi number, retraction reason, authors etc.
 def scrape():
     with open('retraction.html') as html_file:
         soup = BeautifulSoup(html_file, 'lxml')
@@ -22,27 +23,10 @@ def scrape():
 
             reason = ", ".join([str(item.text) for item in tdx[2].find_all('div', class_='rReason')])
             reasonArr.append(reason)
-            #print(reason)
-
-            # original doi
-            #print(tdx[4].find('span', class_='rNature').text)
             retractedDoiArr.append(tdx[4].find('span', class_='rNature').text)
             originalDate.append(tdx[4].contents[0])
             retractedDate.append(tdx[5].contents[0])
             articleType.append(tdx[6].contents[0])
-        # retracted doi
-        #print(tdx[5].find('span', class_='rNature').text)
-
-
-        #print('')
-   # np1 = np.array(retractedDoiArr)
-   # np2 = np.array(reasonArr)
-    #np.reshape(retractedDoiArr, -1)
-    #np.reshape(reasonArr, -1)
-   # print(np1.shape)
-   # print(np2.shape)
-    #a = np.array([retractedDoiArr, reasonArr])
-   # a = np.array(np1, np2)
 
     with open('retractedPapers.csv', 'w', newline='') as file:
         mywriter = csv.writer(file, delimiter=',')
